@@ -1,10 +1,19 @@
-
+import NextCors from 'nextjs-cors';
 import excuteQuery from 'src/lib/db';
 
 export default async (req, res) => {
     const { method } = req;
     let responseCode = 200;
     let responseMessage = null;
+
+    // Run the cors middleware
+    // nextjs-cors uses the cors package, so we invite you to check the documentation https://github.com/expressjs/cors
+    await NextCors(req, res, {
+        // Options
+        methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
+        origin: '*',
+        optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+    });
 
     switch (method) {
         case "GET":
