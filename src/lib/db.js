@@ -21,7 +21,7 @@ export const db = mysql({
     config: { ...config?.production },
 });
 
-export default async function excuteQuery({ query, values }) {
+export default async function excuteQuery({ query, values = '' }) {
     try {
         const results = await db.query(query, values);
         await db.end();
