@@ -29,7 +29,7 @@ export default async (req, res) => {
             }
         case "POST":
             try {
-                const { title, platform, text, category, publish_date, status, created_date } = req.body;
+                const { title, platform, text, category, publish_date, images, status, created_date } = req.body;
 
                 if (!title) {
                     responseCode = 400;
@@ -37,13 +37,22 @@ export default async (req, res) => {
                 } else if (!platform) {
                     responseCode = 400;
                     responseMessage = "Platform is Required";
+                } else if (!text) {
+                    responseCode = 400;
+                    responseMessage = "Text is Required";
+                } else if (!category) {
+                    responseCode = 400;
+                    responseMessage = "Category is Required";
+                } else if (!publish_date) {
+                    responseCode = 400;
+                    responseMessage = "Publish Date is Required";
                 }
 
                 let result = null;
                 if (responseCode === 200) {
                     result = await excuteQuery({
-                        query: 'INSERT INTO content (title, platform, text, category, publish_date, status, created_date) VALUES (?,?,?,?,?,?,?)',
-                        values: [title, platform, text, category, publish_date, status, created_date]
+                        query: 'INSERT INTO content (title, platform, text, category, publish_date, status, created_date, images) VALUES (?,?,?,?,?,?,?,?)',
+                        values: [title, platform, text, category, publish_date, status, created_date, images]
                     });
 
                     responseMessage = 'Content created successfully';
